@@ -16,12 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from . import settings
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', include ('rewards.urls')),
-    #path('points', views.points, name='points')
-    #path('use_points', views.use, name='use-points')
-    #path(new_points, nviews.new, name='new-points')
+    path('rewards', views.all_points, name='all-points'),
+    path('<str:payer>', views.payer_points, name='points'),
+    #path('use_points', views.use_points, name='use-points'),
+    #path('new_points', views.new_point_balance, name='new-points')
 ]
