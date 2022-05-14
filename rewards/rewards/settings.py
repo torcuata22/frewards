@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #my own apps:
     'rewards',
-    'points'
+  
 ]
 
 MIDDLEWARE = [

@@ -21,9 +21,14 @@ def show_payer_points(request):
     points1.sort(key = operator.itemgetter('payer','timestamp'))
 print ("result", str(points1))
 
-def available_points(request):
+def render_available_points(request):   
     pass
 
+def spend_points(request):
+    pass
+
+def show_new_points(request):
+    pass
 
 
 

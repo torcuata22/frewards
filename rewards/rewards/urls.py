@@ -20,5 +20,8 @@ from . import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', include ('points.urls')),
+    #path('', include ('rewards.urls')),
+    #path('points', views.points, name='points')
+    #path('use_points', views.use, name='use-points')
+    #path(new_points, nviews.new, name='new-points')
 ]

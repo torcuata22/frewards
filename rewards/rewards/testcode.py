@@ -14,13 +14,19 @@ points1 = [{"payer": "DANNON", "points": 1500, "timestamp": "2022-05-00:30Z"},
                
 ]
 
-#code to sort list by payer and datestamp: It works!
+#code to sort list by payer and datestamp:
 # points1.sort(key = operator.itemgetter('payer','timestamp'))
 # print ("result", str(points1))
 
 
 #To render_available_points
 def render_available_points(request):   
+    pass
+
+def spend_points(request):
+    pass
+
+def show_new_points(request):
     pass
 
 
