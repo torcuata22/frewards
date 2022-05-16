@@ -18,6 +18,9 @@ points1 = [{"payer": "DANNON", "points": 1500, "timestamp": "2022-05-00:30Z"},
 
 #VIEWS
 
+def home(request):
+      return HttpResponse ("Home Page")
+
 def all_points(request):
     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
     del_key = 'timestamp'

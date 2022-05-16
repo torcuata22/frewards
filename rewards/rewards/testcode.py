@@ -50,14 +50,11 @@ def spend_points(payer_points_dict: list[dict], points_to_spend: int):
     points_to_spend: remaining points 
     '''
 
-# sort data structure by timestamp, earliest records first 
-ordered = sorted(points1, key=lambda d: d["timestamp"])  
+# sort data structure by timestamp, earliest records first   
 updated_records, spend_diff_response = [], []  # spend points across earliest payers, modify dict in-place 
 earliest_points_sorted = sorted(points1, key=lambda d: d["timestamp"])  
 #I added this:
 points_to_spend = 5000
-for i in range(0,10):
-      points_to_spend =ordered_points[i]['points']
       
 while points_to_spend > 0: 
     for record in earliest_points_sorted:   
@@ -70,7 +67,6 @@ while points_to_spend > 0:
         record['points'] -= points_to_spend 
         points_to_spend = 0  # track updated records & records for response 
         updated_records.append({"payer": record["payer"], "points": record['points']}) 
-
         spend_diff_response.append({"payer": record["payer"], "points": record['points'] - curr_points})  # if all payers eval'd, break the spend and return remaining points
 
         if record == earliest_points_sorted[-1]: 

@@ -21,6 +21,7 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', include ('rewards.urls')),
+    path('', views.home, name="home"),
     path('rewards', views.all_points, name='all-points'),
     path('dannon', views.d_payer_points, name='d-points'),
     path('miller', views.m_payer_points, name='m-points'),
