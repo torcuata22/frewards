@@ -19,23 +19,23 @@ points1 = [{"payer": "DANNON", "points": 1500, "timestamp": "2022-05-30Z"},
 
 
 
-ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-# ordered={}
-# keys = ['payer', 'points']
-# points2 = {key:value for key, value in ordered.items() if key in keys}
-# print (points2)
+# ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+# # ordered={}
+# # keys = ['payer', 'points']
+# # points2 = {key:value for key, value in ordered.items() if key in keys}
+# # print (points2)
 
-# But this one works -->create dictionary form two lists: 
-for i in range(0,10):
-     x = ordered_points[i]['timestamp']
-     print (x)
+# # But this one works -->create dictionary form two lists: 
+# for i in range(0,10):
+#      x = ordered_points[i]['timestamp']
+#      print (x)
  
-# #delete timestamp key from dictionary
-del_key = 'timestamp'    
-for items in ordered_points:
-    if del_key in items:
-        del items[del_key]
-    print (ordered_points)
+# # #delete timestamp key from dictionary
+# del_key = 'timestamp'    
+# for items in ordered_points:
+#     if del_key in items:
+#         del items[del_key]
+#     print (ordered_points)
 
 
 
@@ -71,10 +71,10 @@ while points_to_spend > 0:
 
         if record == earliest_points_sorted[-1]: 
             break  
-    updated_records = flatten_updated_records(updated_records) 
-    spend_diff_response = flatten_updated_records(spend_diff_response)  
+    # updated_records = flatten_updated_records(updated_records) 
+    # spend_diff_response = flatten_updated_records(spend_diff_response)  
 
-            return earliest_points_sorted, updated_records, spend_diff_response, points_to_spend 
+        return earliest_points_sorted, updated_records, spend_diff_response, points_to_spend 
 
 #In [129]: 
     def flatten_updated_records(updated_records: list[dict]): 
@@ -83,9 +83,10 @@ ACCEPTS:  updated_records: list of dictionaries with schema [payer:str, points:i
 RETURNS: flat_updated_records: collapsed list of dicts with payer: summed points
     '''
     flat_updated_records = [] 
-    all_payers = set([x["payer"] for x in updated_records])  
+    all_payers = set([x["payer"] for x in updated_records]) 
     for payer in all_payers: # get all points per payer and 
         sum_payer_records = [x for x in updated_records if x["payer"] == payer] 
-        sum_pts = sum([x["points"] for x in payer_records]) 
+        sum_pts = sum([x["points"] for x in sum_payer_records]) 
         flat_updated_records.append({"payer": payer, "points": sum_pts})  
-        return flat_updated_records 
+        
+    return flat_updated_records 

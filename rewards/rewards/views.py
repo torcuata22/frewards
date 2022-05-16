@@ -45,8 +45,12 @@ def u_payer_points(request):
     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
     U = ordered_points[6:]
     return HttpResponse(U)
+
+def spend_points(request):
+    pass
         
-       
+def update_records(request):
+    pass      
     #  if payer == 'DANNON':
         #points_D = 
     #         return HttpResponse("You have {points} points available")
