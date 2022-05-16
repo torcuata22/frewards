@@ -16,11 +16,7 @@ points1 = [{"payer": "DANNON", "points": 1500, "timestamp": "2022-05-00:30Z"},
                
 ]
 
-#VIEWS:
-def payer_points(request):
-    #points1.sort(key = operator.itemgetter('payer','timestamp'))
-    #return HttpResponse ("result", str(points1))
-    return HttpResponse("These are all the rewards points for every user: ") #error response
+#VIEWS
 
 def all_points(request):
     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
@@ -30,14 +26,32 @@ def all_points(request):
             del items[del_key]
     return HttpResponse(ordered_points)
   
-    
+  
+def d_payer_points(request):
+    ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+    D = ordered_points[:3]
+    return HttpResponse(D)
+        
+def m_payer_points(request):
+    ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+    M = ordered_points[4:5]
+    return HttpResponse(M)        
+        
+        
+def u_payer_points(request):
+    ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+    U = ordered_points[6:]
+    return HttpResponse(U)
         
        
     #  if payer == 'DANNON':
+        #points_D = 
     #         return HttpResponse("You have {points} points available")
     #  elif payer == 'MILLER':
+        #points_M =
     #     return HttpResponse("You have {points} points available")
     #  elif payer == "UNILEVER":
+        #points_U =
     #    return HttpResponse("You have {points} points available")
     #  else:
     #     return HttpResponseNotFound("Sorry, account not found") #error response

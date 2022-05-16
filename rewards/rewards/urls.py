@@ -22,7 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     #path('', include ('rewards.urls')),
     path('rewards', views.all_points, name='all-points'),
-    path('<str:payer>', views.payer_points, name='points'),
+    path('dannon', views.d_payer_points, name='d-points'),
+    path('miller', views.m_payer_points, name='m-points'),
+    path('unilever', views.u_payer_points, name='u-points'),
     #path('use_points', views.use_points, name='use-points'),
     #path('new_points', views.new_point_balance, name='new-points')
 ]

@@ -1,6 +1,8 @@
 import operator
 from collections import defaultdict
 from itertools import groupby
+import json
+
 points1 = [{"payer": "DANNON", "points": 1500, "timestamp": "2022-05-30Z"},
                {"payer": "MILLER COORS", "points": 500, "timestamp": "2021-12-29Z"},
                {"payer": "DANNON", "points": 700, "timestamp": "2022-01-18Z"},
@@ -13,46 +15,81 @@ points1 = [{"payer": "DANNON", "points": 1500, "timestamp": "2022-05-30Z"},
                {"payer": "UNILEVER", "points": 2000, "timestamp": "2022-02-01Z"},         
                
 ]
-
-#code to sort list by payer and datestamp:
-#points2 = points1.sort(key = operator.itemgetter('payer','timestamp'))
-#print ("result", str(points1))
-# for i in range(0,10):  
-#     x= points1[i]
-#     test_list = list(x.values())
-#     print(test_list)
-    #y = x.fromkeys()
-    #print(y)
-
     
 
 
-# #to create a dictionary from another dictionary:
-# ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp'))) #list of dictionaries, so it won't create a new dict.
+
+ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
 # ordered={}
 # keys = ['payer', 'points']
 # points2 = {key:value for key, value in ordered.items() if key in keys}
 # print (points2)
 
-# #But this one works -->create dictionary form two lists: 
-# for i in range(0,10):
-#     x = ordered_points[i]['timestamp']
-#     print (x)
+# But this one works -->create dictionary form two lists: 
+for i in range(0,10):
+     x = ordered_points[i]['timestamp']
+     print (x)
  
 # #delete timestamp key from dictionary
-# del_key = 'timestamp'    
-# for items in ordered_points:
-#     if del_key in items:
-#         del items[del_key]
-#     print (ordered_points)
-
-# #substract points from payers (fixed amount):
-
-# transaction = {"points": 500}
-
-# for items in ordered_points:
-#     if ordered_points[i]['points']:
-#         pass
-        #substract transaction['points'] from prdered_points[i]['points']????
+del_key = 'timestamp'    
+for items in ordered_points:
+    if del_key in items:
+        del items[del_key]
+    print (ordered_points)
 
 
+
+
+def spend_points(payer_points_dict: list[dict], points_to_spend: int): 
+    ''' 
+    Spends points in points_to_spend in pay_points_dict['points'], with points spent in earliest 
+    transactions first ACCEPTS: payer_points_dict: list of dictionaries w/ schema [payer:str, points:int, 
+    timestamp: date/timestamp] points_to_spend: points to spend (int)  
+    RETURNS: earliest_points_sorted: original list of dicts w/ edits updated_records: updated records, 
+    flattened (payer, points) spend_diff_response: points differential, intended as a returned response (payer, points) 
+    points_to_spend: remaining points 
+    '''
+
+# sort data structure by timestamp, earliest records first 
+ordered = sorted(points1, key=lambda d: d["timestamp"])  
+updated_records, spend_diff_response = [], []  # spend points across earliest payers, modify dict in-place 
+earliest_points_sorted = sorted(points1, key=lambda d: d["timestamp"])  
+#I added this:
+points_to_spend = 5000
+for i in range(0,10):
+      points_to_spend =ordered_points[i]['points']
+      
+while points_to_spend > 0: 
+    for record in earliest_points_sorted:   
+        curr_points = record['points'] # reverse sign for existing negative balances  
+
+    if curr_points < points_to_spend: 
+        record['points'] = 0 
+        points_to_spend += (-1 * curr_points) 
+    else: 
+        record['points'] -= points_to_spend 
+        points_to_spend = 0  # track updated records & records for response 
+        updated_records.append({"payer": record["payer"], "points": record['points']}) 
+
+        spend_diff_response.append({"payer": record["payer"], "points": record['points'] - curr_points})  # if all payers eval'd, break the spend and return remaining points
+
+        if record == earliest_points_sorted[-1]: 
+            break  
+    updated_records = flatten_updated_records(updated_records) 
+    spend_diff_response = flatten_updated_records(spend_diff_response)  
+
+            return earliest_points_sorted, updated_records, spend_diff_response, points_to_spend 
+
+#In [129]: 
+    def flatten_updated_records(updated_records: list[dict]): 
+        ''' 
+ACCEPTS:  updated_records: list of dictionaries with schema [payer:str, points:int]  
+RETURNS: flat_updated_records: collapsed list of dicts with payer: summed points
+    '''
+    flat_updated_records = [] 
+    all_payers = set([x["payer"] for x in updated_records])  
+    for payer in all_payers: # get all points per payer and 
+        sum_payer_records = [x for x in updated_records if x["payer"] == payer] 
+        sum_pts = sum([x["points"] for x in payer_records]) 
+        flat_updated_records.append({"payer": payer, "points": sum_pts})  
+        return flat_updated_records 
