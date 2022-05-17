@@ -27,6 +27,6 @@ urlpatterns = [
     path('miller', views.m_payer_points, name='m-points'),
     path('unilever', views.u_payer_points, name='u-points'),
     path('spend_points', views.spend_points, name='spend-points'),
-    path('update', views.update_records, name = 'update-records')
+    path('update', views.flatten_updated_records, name = 'update-records')
    
 ]
