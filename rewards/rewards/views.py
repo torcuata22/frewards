@@ -1,3 +1,4 @@
+from http.client import PAYMENT_REQUIRED
 import operator
 from django.shortcuts import render
 from django.http import HttpResponse,HttpResponseNotFound, HttpResponseRedirect
@@ -19,16 +20,30 @@ points1 = [{"payer": "DANNON", "points": 1500, "timestamp": "2022-05-00:30Z"},
 
 #VIEWS
 
+def get_date(post):
+    return post['date']
+
 def home(request):
-      return HttpResponse ("Home Page")
+      return render(request, "index.html") #works!
+  
+def points(request):
+    pass
+
+def payer_points(request):
+    pass
 
 def all_points(request):
-    ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-    del_key = 'timestamp'
-    for items in ordered_points:
-        if del_key in items:
-            del items[del_key]
-    return HttpResponse(ordered_points)
+    date_points= sorted(points1, key=get_date)
+    return render (request, "allpoints.html", {
+      "points": date_points
+        
+    })
+    # ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+    # del_key = 'timestamp'
+    # for items in ordered_points:
+    #     if del_key in items:
+    #         del items[del_key]
+    # return HttpResponse(ordered_points)
   
   
 def d_payer_points(request):
@@ -47,40 +62,47 @@ def u_payer_points(request):
     U = ordered_points[6:]
     return HttpResponse(U)
 
-
-#def spend(request):
-    #
-
-def spend_points(request):
-    # sort data structure by timestamp, earliest records first   
-    earliest_points_sorted = sorted(points1, key=lambda d: d["timestamp"])  
+def spend_points(request):  
+    global points1 
+# sort data structure by timestamp, earliest records first 
+    earliest_points_sorted = sorted(points1, key=lambda d: d["timestamp"])
     updated_records, spend_diff_response = [], []  # spend points across earliest payers, modify dict in-place
     points_to_spend = 5000
-    while points_to_spend > 0: 
-        for record in earliest_points_sorted:   
-            curr_points = record['points']  
 
-        if curr_points < points_to_spend: 
-            record['points'] = 0 
-            points_to_spend += (-1 * curr_points) 
+    while points_to_spend > 0:
+        loop_num = 0
+
+        for record in earliest_points_sorted:
             
-        else: 
-            record['points'] -= points_to_spend 
-            points_to_spend = 0  # track updated records & records for response 
-            updated_records.append({"payer": record["payer"], "points": record['points']}) 
-            spend_diff_response.append({"payer": record["payer"], "points": record['points'] - curr_points})  # if all payers evaluated, break the spend and return remaining points
+            curr_points = record['points'] 
 
-        if record == earliest_points_sorted[-1]: 
-            break 
+            if curr_points < points_to_spend: 
+                record['points'] = 0 
+                points_to_spend += (-1 * curr_points)
+
+            else: 
+                record['points'] -= points_to_spend 
+                points_to_spend = 0  # track updated records & records for response 
+                updated_records.append({"payer": record["payer"], "points": record['points'], "timestamp": record['timestamp']}) 
+                spend_diff_response.append({"payer": record["payer"], "points": record['points'] - curr_points})  # if all payers evaluated, break the spend and return remaining points
+
+        loop_num += 1
+        if loop_num > 50:
+            break
          
+    if updated_records != []:
+        points1 = updated_records
 
-    updated_records = flatten_updated_records(updated_records) 
+    updated_records = flatten_updated_records(updated_records)
     spend_diff_response = flatten_updated_records(spend_diff_response)
-      
-    return HttpResponse((earliest_points_sorted, updated_records, spend_diff_response, points_to_spend)) 
+
+    
+    response_data = f"After using the user's 5000 points, the payer points were updated to:<br>{updated_records}<br><br>Here's the point difference:<br>{spend_diff_response}<br><br>Points left to spend:{points_to_spend}"
+
+    return HttpResponse(response_data)
 
  
-def flatten_updated_records(request, updated_records): 
+def flatten_updated_records(updated_records): 
     flat_updated_records = [] 
     all_payers = set([x["payer"] for x in updated_records]) 
     for payer in all_payers: # get all points per payer 
@@ -89,34 +111,8 @@ def flatten_updated_records(request, updated_records):
         flat_updated_records.append({"payer": payer, "points": sum_pts})  
     
     
-    return HttpResponse(flat_updated_records)
-#test code:
-# payer_points = [
-#     { "payer": "DANNON", "points": 1000, "timestamp": "2020-11-02T14:00:00Z" },
-#     { "payer": "UNILEVER", "points": 200, "timestamp": "2020-10-31T11:00:00Z" },
-#     { "payer": "DANNON", "points": -200, "timestamp": "2020-10-31T15:00:00Z" },
-#     { "payer": "MILLER COORS", "points": 10000, "timestamp": "2020-11-01T14:00:00Z" },
-#     { "payer": "DANNON", "points": 300, "timestamp": "2020-10-31T10:00:00Z" },            
-# ]
+    return flat_updated_records
 
-# points_to_spend = 5000
-
-# earliest_points_sorted, updated_records, spend_diff_response, points_to_spend = spend_points(payer_points, points_to_spend)
-
-# print(
-#     "ORIGINAL DATA + UPDATES: ", 
-#     json.dumps(earliest_points_sorted, indent=4, sort_keys=True),
-#     "",
-#     "UPDATED PAYER RECORDS: ",
-#     json.dumps(updated_records, indent=4, sort_keys=True),
-#     "",
-#     "SPEND DIFF PAYER RECORDS: ",
-#     json.dumps(spend_diff_response, indent=4, sort_keys=True),
-#     "",
-#     "REMAINING POINTS: ",
-#     points_to_spend,
-#     "",
-# sep="\n")     
   
   
 

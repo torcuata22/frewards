@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block title %} All points {% enblock %}
+
+{% block content %}
+<h2>All points for this user:</h2>
+<ul>
+    {% for points in all_points %}
+    {% include 'points.html' %}
+
+</ul>
+
+{% endblock %}

@@ -17,15 +17,17 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from . import views
-
+#I'm using only one urls.py file for the whole project, but in real life each app should have its own urls and I would register them here with include
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('', include ('rewards.urls')),
-    path('', views.home, name="home"),
-    path('rewards', views.all_points, name='all-points'),
-    path('dannon', views.d_payer_points, name='d-points'),
-    path('miller', views.m_payer_points, name='m-points'),
-    path('unilever', views.u_payer_points, name='u-points'),
+    path('', views.home, name='home'),
+    path('points', views.all_points, name='points-page'),
+    path('points/<slug>', views.payer_points, name='payer-points '),
+    
+    # path('dannon', views.d_payer_points, name='d-points'),
+    # path('miller', views.m_payer_points, name='m-points'),
+    # path('unilever', views.u_payer_points, name='u-points'),
+    
     path('spend_points', views.spend_points, name='spend-points'),
     path('update', views.flatten_updated_records, name = 'update-records')
    
