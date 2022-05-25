@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Dannon Points:</h3>
+{% for dannon in dannon %}
+<ul>
+    <li>
+    Payer: {{dannon.payer }},
+    Number of Points:{{dannon.points}},
+    Date: {{dannon.timestamp}} 
+</li>
+</ul>    
+
+{% endfor %}
+
+{% endblock %}

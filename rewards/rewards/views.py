@@ -20,8 +20,6 @@ points1 = [{"payer": "DANNON", "points": 1500, "timestamp": "2022-05-00:30Z"},
 
 #VIEWS
 
-def get_date(post):
-    return post['date']
 
 def home(request):
       return render(request, "index.html") #works!
@@ -34,24 +32,32 @@ def payer_points(request):
 
 def all_points(request):
     points= sorted(points1, key = operator.itemgetter('payer', 'timestamp'))
-    return render(request, 'all_points.html',{"points": points})
+    return render(request, "all_points.html",{"points": points})
+
+def payer_points(request):
+    points= sorted(points1, key = operator.itemgetter('payer', 'timestamp'))
+    return render (request, "payer_points.html", {
+        "points": points
+    })
+    
   
   
-# def d_payer_points(request):
-#     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-#     D = ordered_points[:3]
-#     return HttpResponse(D)
+def d_payer_points(request):
+    ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+    dannon = ordered_points[:3]
+    return render(request,"dpayer_points.html",{"dannon": dannon})
+    
         
-# def m_payer_points(request):
-#     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-#     M = ordered_points[4:5]
-#     return HttpResponse(M)        
+def m_payer_points(request):
+     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+     miller = ordered_points[4:6]
+     return render(request,"mpayer_points.html",{"miller": miller})        
         
         
-# def u_payer_points(request):
-#     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-#     U = ordered_points[6:]
-#     return HttpResponse(U)
+def u_payer_points(request):
+     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+     unilever = ordered_points[6:]
+     return render(request, 'upayer_points.html', {"unilever": unilever})
 
 def spend_points(request):  
     global points1 

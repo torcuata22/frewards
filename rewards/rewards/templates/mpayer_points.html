@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Miller Points:</h3>
+{% for miller in miller %}
+<ul>
+<li>
+    Payer: {{miller.payer }},
+    Number of Points:{{miller.points}},
+    Date: {{miller.timestamp}} 
+</li>
+</ul>    
+
+{% endfor %}
+
+{% endblock %}

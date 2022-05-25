@@ -22,11 +22,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('points', views.all_points, name='points-page'),
-    path('points/<payer>', views.payer_points, name='payer-points '),
-    
-    # path('dannon', views.d_payer_points, name='d-points'),
-    # path('miller', views.m_payer_points, name='m-points'),
-    # path('unilever', views.u_payer_points, name='u-points'),
+    #path('points/<payer>', views.payer_points, name='payer-points '),
+    path('dannon', views.d_payer_points, name='d-points'),
+    path('miller', views.m_payer_points, name='m-points'),
+    path('unilever', views.u_payer_points, name='u-points'),
     
     path('spend_points', views.spend_points, name='spend-points'),
     path('update', views.flatten_updated_records, name = 'update-records')

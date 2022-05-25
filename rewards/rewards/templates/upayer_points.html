@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>Unilever Points:</h3>
+{% for unilever in unilever %}
+<ul>
+    <li>
+    Payer: {{unilever.payer }},
+    Number of Points:{{unilever.points}},
+    Date: {{unilever.timestamp}} 
+</li>
+</ul>    
+
+{% endfor %}
+
+{% endblock %}
