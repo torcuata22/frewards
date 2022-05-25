@@ -22,7 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('points', views.all_points, name='points-page'),
-    path('points/<slug>', views.payer_points, name='payer-points '),
+    path('points/<payer>', views.payer_points, name='payer-points '),
     
     # path('dannon', views.d_payer_points, name='d-points'),
     # path('miller', views.m_payer_points, name='m-points'),

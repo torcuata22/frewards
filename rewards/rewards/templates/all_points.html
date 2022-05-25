@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %} All points {% enblock %}
+{% block title %} All points for User {% endblock %}
 
 {% block content %}
-<h2>All points for this user:</h2>
+<h2>These are all the reward points for this user:</h2>
 <ul>
-    {% for points in all_points %}
-    {% include 'points.html' %}
+        <!-- this works: {{points}} -->
+        {% include 'points.html' %}
 
 </ul>
-
 {% endblock %}

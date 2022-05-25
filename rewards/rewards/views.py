@@ -27,40 +27,31 @@ def home(request):
       return render(request, "index.html") #works!
   
 def points(request):
-    pass
+   return render(request, 'all_points.html')
 
 def payer_points(request):
     pass
 
 def all_points(request):
-    date_points= sorted(points1, key=get_date)
-    return render (request, "allpoints.html", {
-      "points": date_points
-        
-    })
-    # ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-    # del_key = 'timestamp'
-    # for items in ordered_points:
-    #     if del_key in items:
-    #         del items[del_key]
-    # return HttpResponse(ordered_points)
+    points= sorted(points1, key = operator.itemgetter('payer', 'timestamp'))
+    return render(request, 'all_points.html',{"points": points})
   
   
-def d_payer_points(request):
-    ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-    D = ordered_points[:3]
-    return HttpResponse(D)
+# def d_payer_points(request):
+#     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+#     D = ordered_points[:3]
+#     return HttpResponse(D)
         
-def m_payer_points(request):
-    ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-    M = ordered_points[4:5]
-    return HttpResponse(M)        
+# def m_payer_points(request):
+#     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+#     M = ordered_points[4:5]
+#     return HttpResponse(M)        
         
         
-def u_payer_points(request):
-    ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
-    U = ordered_points[6:]
-    return HttpResponse(U)
+# def u_payer_points(request):
+#     ordered_points = (sorted(points1, key = operator.itemgetter('payer', 'timestamp')))
+#     U = ordered_points[6:]
+#     return HttpResponse(U)
 
 def spend_points(request):  
     global points1 
