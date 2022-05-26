@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3>After using 5000 points, the payer points were updated to:</h3>
+
+{% for points1 in points1 %}
+<ul>    
+    <li>
+    Payer: {{points1.payer}},
+    Number of points left:{{points1.points}} 
+    </li>
+</ul>   
+
+{% endfor %}
+<br>
+<h3>The amount of points left to spend is: {{points_to_spend}} </h3>
+<br>
+<h3>The difference in points is:</h3>
+{% for difference in difference %}
+<ul>    
+    <li>
+        Payer: {{difference.payer}},
+        Number of Points:{{difference.points}} 
+    </li>
+</ul>  
+{% endfor %}
+
+{% endblock %}
