@@ -22,11 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('points', views.all_points, name='points-page'),
-    #path('points/<payer>', views.payer_points, name='payer-points '),
-    path('dannon', views.d_payer_points, name='d-points'),
+    path('dannon', views.d_payer_points, name='d-points'),# becuase we are using hard-coded data, therwuse I'd use ,id> or <slug> for payers
     path('miller', views.m_payer_points, name='m-points'),
     path('unilever', views.u_payer_points, name='u-points'),
-    path('spend_points', views.spend_points, name='spend-points'),
-    path('difference', views.spend_points, name = 'difference')
-   
+    path('spend_points', views.spend_points, name='spend-points')
 ]

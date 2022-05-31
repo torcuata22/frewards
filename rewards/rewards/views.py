@@ -23,19 +23,19 @@ def home(request):
 def points(request):
    return render(request, 'all_points.html')
 
-def payer_points(request):
-    pass
 
 def all_points(request):
+    #initial points
     points= sorted(points1, key = operator.itemgetter('payer', 'timestamp'))
     return render(request, "all_points.html",{"points": points})
 
 def payer_points(request):
+    #organized by payer and timestamp:
     points= sorted(points1, key = operator.itemgetter('payer', 'timestamp'))
     return render (request, "payer_points.html", {
         "points": points
     })
-  
+#these three functions show points per individual payer (if using Models would've used filters instead)
 def d_payer_points(request):
     ordered_points = sorted(points1, key = operator.itemgetter('payer', 'timestamp'))
     dannon = ordered_points[:3]
@@ -65,13 +65,13 @@ def spend_points(request):
                {"payer": "DANNON", "points": 250, "timestamp": "2022-02-27Z"},
                {"payer": "UNILEVER", "points": 2000, "timestamp": "2022-02-01Z"},         
                
-]
+] #if I make this a global variable, you won't be able to see the initial values once this function is applied, so I did it this way instead.
 # sort data structure by timestamp, earliest records first 
     earliest_points_sorted = sorted(points1, key = operator.itemgetter('timestamp'))
     updated_records, spend_diff_response = [], []  # spend points across earliest payers, modify dict in-place
     points_to_spend = 5000
 
-    while points_to_spend > 0:
+    while points_to_spend > 0: 
         loop_num = 0
 
         for record in earliest_points_sorted:
@@ -98,10 +98,6 @@ def spend_points(request):
     updated_records = flatten_updated_records(updated_records)
     difference = spend_diff_response
 
-    
-    #return updated_records, spend_diff_response, points_to_spend 
-
-    #return HttpResponse(response_data)
     return render(request, 'spend.html', {
          
          "points1": points1,
@@ -122,5 +118,3 @@ def flatten_updated_records(updated_records):
          return flat_updated_records
      
      
-def update(request):
-         pass
